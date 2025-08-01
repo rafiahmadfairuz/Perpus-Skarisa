@@ -4,9 +4,9 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Data Pengguna</h4>
-                <button class="btn btn-primary">
+                <a href="{{ route('create.pengguna') }}" class="btn btn-primary">
                     <i class="fa fa-plus"></i> Tambah Data
-                </button>
+                </a>
             </div>
 
             <div class="card-body">
@@ -37,7 +37,7 @@
                                 <td>admin</td>
                                 <td>Administrator</td>
                                 <td>
-                                    <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
+                                    <a  href="{{ route('update.pengguna') }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
                                     <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>

@@ -4,12 +4,12 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Data Buku</h4>
-                <button class="btn btn-secondary">
+                <a href="{{ route('create.buku') }}" class="btn btn-secondary">
                     <span class="btn-label">
                         <i class="fa fa-plus"></i>
                     </span>
                     Tambah Buku
-                </button>
+                </a>
             </div>
 
             <div class="card-body">
@@ -46,7 +46,7 @@
                                 <td>armi print</td>
                                 <td>2010</td>
                                 <td>
-                                    <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
+                                    <a  href="{{ route('update.buku') }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
                                     <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>

@@ -4,12 +4,12 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Data Anggota</h4>
                 <div class="d-flex gap-2">
-                      <button class="btn btn-secondary">
+                      <a href="{{ route('create.anggota') }}" class="btn btn-secondary">
                     <span class="btn-label">
                         <i class="fa fa-plus"></i>
                     </span>
-                    Tambah Buku
-                </button>
+                    Tambah Anggota
+                </a>
                     <button class="btn btn-success btn-sm">
                         <i class="fa fa-print"></i> Print
                     </button>
@@ -51,7 +51,7 @@
                                 <td>089987789000</td>
                                 <td>
                                     <div class="d-flex gap-1">
-                                        <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
+                                        <a  href="{{ route('update.anggota') }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
                                         <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                                         <button class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
                                     </div>

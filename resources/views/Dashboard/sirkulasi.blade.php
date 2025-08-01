@@ -3,12 +3,12 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Data Sirkulasi</h4>
-                <button class="btn btn-secondary">
+                <a href="{{ route('sirkulasi.create') }}" class="btn btn-secondary">
                     <span class="btn-label">
                         <i class="fa fa-plus"></i>
                     </span>
                     Tambah Data
-                </button>
+                </a>
             </div>
 
             <div class="card-body">
@@ -89,6 +89,10 @@
             </div>
         </div>
     </div>
+    <div>*Note
+        Masa peminjaman buku adalah 7 hari dari tanggal peminjaman.
+        Jika buku dikembalikan lebih dari masa peminjaman, maka akan dikenakan denda
+        sebesar Rp 1.000/hari.</div>
 </x-app>
 <script>
     $(document).ready(function() {
