@@ -62,11 +62,11 @@
                     </a>
                     <div class="collapse {{ $isKelolaActive ? 'show' : '' }}" id="kelolaData">
                         <ul class="nav nav-collapse">
-                            <li class="{{ request()->routeIs('kelola.buku') ? 'active' : '' }}">
-                                <a href="{{ route('kelola.buku') }}"><span class="sub-item">Data Buku</span></a>
+                            <li class="{{ request()->routeIs('buku.index') ? 'active' : '' }}">
+                                <a href="{{ route('buku.index') }}"><span class="sub-item">Data Buku</span></a>
                             </li>
-                            <li class="{{ request()->routeIs('kelola.anggota') ? 'active' : '' }}">
-                                <a href="{{ route('kelola.anggota') }}"><span class="sub-item">Data Anggota</span></a>
+                            <li class="{{ request()->routeIs('anggota.index') ? 'active' : '' }}">
+                                <a href="{{ route('anggota.index') }}"><span class="sub-item">Data Anggota</span></a>
                             </li>
                         </ul>
                     </div>
@@ -119,10 +119,13 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('login') }}">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <p>Logout</p>
-                    </a>
+                    <form action="{{ route("logout") }}" method="POST">
+                        @csrf
+                        <button type="submit">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>

@@ -9,4 +9,8 @@ class Anggota extends Model
 {
     /** @use HasFactory<\Database\Factories\AnggotaFactory> */
     use HasFactory;
+    protected $primaryKey = 'id_anggota';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $guarded = ['id'];
 }

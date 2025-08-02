@@ -12,7 +12,7 @@
                         <h3 class="fw-bold mb-0 text-white">Buku</h3>
                     </div>
                     <h2 class="mb-3 text-white">6</h2>
-                    <a href="{{ route('kelola.buku') }}" class="text-small text-uppercase fw-bold op-8 text-white">
+                    <a href="{{ route('buku.index') }}" class="text-small text-uppercase fw-bold op-8 text-white">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -29,7 +29,7 @@
                         <h3 class="fw-bold mb-0 text-white">Anggota</h3>
                     </div>
                     <h2 class="mb-3 text-white">6</h2>
-                    <a href="{{ route('kelola.anggota') }}" class="text-small text-uppercase fw-bold op-8 text-white">
+                    <a href="{{ route('anggota.index') }}" class="text-small text-uppercase fw-bold op-8 text-white">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>

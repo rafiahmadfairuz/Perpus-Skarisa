@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('log_pinjams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("buku_id")->constrained()->onDelete("cascade");
-            $table->foreignId("anggota_id")->constrained()->onDelete("cascade");
+            $table->string('id_buku');
+            $table->foreign('id_buku')->references('id_buku')->on('bukus')->onDelete('cascade');
+            $table->string('id_anggota');
+            $table->foreign('id_anggota')->references('id_anggota')->on('anggotas')->onDelete('cascade');
             $table->date("tgl_pinjam");
             $table->timestamps();
         });

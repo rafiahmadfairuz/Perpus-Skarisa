@@ -4,15 +4,15 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Data Anggota</h4>
                 <div class="d-flex gap-2">
-                      <a href="{{ route('create.anggota') }}" class="btn btn-secondary">
-                    <span class="btn-label">
-                        <i class="fa fa-plus"></i>
-                    </span>
-                    Tambah Anggota
-                </a>
-                    <button class="btn btn-success btn-sm">
+                    <a href="{{ route('anggota.create') }}" class="btn btn-secondary">
+                        <span class="btn-label">
+                            <i class="fa fa-plus"></i>
+                        </span>
+                        Tambah Anggota
+                    </a>
+                    <a href="" class="btn btn-success btn-sm">
                         <i class="fa fa-print"></i> Print
-                    </button>
+                    </a>
                 </div>
             </div>
 
@@ -42,96 +42,36 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>A001</td>
-                                <td>Ana</td>
-                                <td>Perempuan</td>
-                                <td>juwana</td>
-                                <td>089987789000</td>
-                                <td>
-                                    <div class="d-flex gap-1">
-                                        <a  href="{{ route('update.anggota') }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                        <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>A002</td>
-                                <td>Bagus</td>
-                                <td>Laki-laki</td>
-                                <td>demak</td>
-                                <td>089987789098</td>
-                                <td>
-                                    <div class="d-flex gap-1">
-                                        <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>A003</td>
-                                <td>Citra</td>
-                                <td>Perempuan</td>
-                                <td>demak</td>
-                                <td>085878526048</td>
-                                <td>
-                                    <div class="d-flex gap-1">
-                                        <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>A004</td>
-                                <td>Didik</td>
-                                <td>Laki-laki</td>
-                                <td>pati</td>
-                                <td>087789987654</td>
-                                <td>
-                                    <div class="d-flex gap-1">
-                                        <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>A005</td>
-                                <td>Edi</td>
-                                <td>Laki-laki</td>
-                                <td>demak</td>
-                                <td>089987789098</td>
-                                <td>
-                                    <div class="d-flex gap-1">
-                                        <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>A006</td>
-                                <td>Rafi</td>
-                                <td>Laki-laki</td>
-                                <td>XII RPL 5</td>
-                                <td>493294023</td>
-                                <td>
-                                    <div class="d-flex gap-1">
-                                        <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+                            @foreach ($anggota as $i => $a)
+                                <tr>
+                                    <td>{{ $i + 1 }}</td>
+                                    <td>{{ $a->id_anggota }}</td>
+                                    <td>{{ $a->nama }}</td>
+                                    <td>{{ $a->jekel }}</td>
+                                    <td>{{ $a->kelas }}</td>
+                                    <td>{{ $a->no_hp }}</td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <a href="{{ route('anggota.edit', $a->id_anggota) }}" class="btn btn-success btn-sm">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <form action="{{ route('anggota.destroy', $a->id_anggota) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                            </form>
+                                            <a href="" class="btn btn-primary btn-sm">
+                                                <i class="fa fa-print"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @if ($anggota->isEmpty())
+                                <tr>
+                                    <td colspan="7" class="text-center">Belum ada data anggota.</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -139,6 +79,7 @@
         </div>
     </div>
 </x-app>
+
 
 <script>
     $(document).ready(function() {

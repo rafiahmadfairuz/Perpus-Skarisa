@@ -9,4 +9,8 @@ class Buku extends Model
 {
     /** @use HasFactory<\Database\Factories\BukuFactory> */
     use HasFactory;
+    protected $primaryKey = 'id_buku';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $guarded = ['id'];
 }

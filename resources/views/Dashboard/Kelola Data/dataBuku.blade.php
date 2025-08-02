@@ -1,10 +1,9 @@
 <x-app>
-
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Data Buku</h4>
-                <a href="{{ route('create.buku') }}" class="btn btn-secondary">
+                <a href="{{ route('buku.create') }}" class="btn btn-secondary">
                     <span class="btn-label">
                         <i class="fa fa-plus"></i>
                     </span>
@@ -38,85 +37,39 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>B001</td>
-                                <td>Matematika</td>
-                                <td>anastasya</td>
-                                <td>armi print</td>
-                                <td>2010</td>
-                                <td>
-                                    <a  href="{{ route('update.buku') }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>B002</td>
-                                <td>RPL 2</td>
-                                <td>Eko</td>
-                                <td>UMK</td>
-                                <td>2020</td>
-                                <td>
-                                    <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>B003</td>
-                                <td>C++</td>
-                                <td>Anton</td>
-                                <td>Toni Perc</td>
-                                <td>2010</td>
-                                <td>
-                                    <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>B004</td>
-                                <td>CI 4</td>
-                                <td>anastasya</td>
-                                <td>armi print</td>
-                                <td>2009</td>
-                                <td>
-                                    <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>B005</td>
-                                <td>Data Mining</td>
-                                <td>Anton</td>
-                                <td>Toni Perc</td>
-                                <td>2020</td>
-                                <td>
-                                    <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>B006</td>
-                                <td>Tutorial Coding Laravel</td>
-                                <td>Jeff Bezoz</td>
-                                <td>Gramedia</td>
-                                <td>2001</td>
-                                <td>
-                                    <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
+                            @foreach($buku as $index => $item)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $item->id_buku }}</td>
+                                    <td>{{ $item->judul_buku }}</td>
+                                    <td>{{ $item->pengarang }}</td>
+                                    <td>{{ $item->penerbit }}</td>
+                                    <td>{{ $item->th_terbit }}</td>
+                                    <td class="d-flex">
+                                        <a href="{{ route('buku.edit', $item->id_buku) }}" class="btn btn-success btn-sm me-1">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <form action="{{ route('buku.destroy', $item->id_buku) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @if($buku->isEmpty())
+                                <tr>
+                                    <td colspan="7" class="text-center">Tidak ada data buku.</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
 </x-app>
 
 <script>
