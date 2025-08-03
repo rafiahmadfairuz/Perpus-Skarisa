@@ -1,10 +1,9 @@
 <x-app>
-
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Data Pengguna</h4>
-                <a href="{{ route('create.pengguna') }}" class="btn btn-primary">
+                <a href="{{ route('pengguna.create') }}" class="btn btn-primary">
                     <i class="fa fa-plus"></i> Tambah Data
                 </a>
             </div>
@@ -31,40 +30,48 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Eko Onny</td>
-                                <td>admin</td>
-                                <td>Administrator</td>
-                                <td>
-                                    <a  href="{{ route('update.pengguna') }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Onny</td>
-                                <td>onny</td>
-                                <td>Petugas</td>
-                                <td>
-                                    <button class="btn btn-success btn-sm"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
+                            @foreach ($penggunas as $index => $p)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $p->nama_pengguna }}</td>
+                                    <td>{{ $p->username }}</td>
+                                    <td>{{ $p->level }}</td>
+                                    <td>
+                                        <a href="{{ route('pengguna.edit', $p->id) }}" class="btn btn-success btn-sm">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <form action="{{ route('pengguna.destroy', $p->id) }}" method="POST"
+                                            class="d-inline"
+                                            onsubmit="return confirm('Yakin ingin menghapus pengguna ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-sm">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            @if ($penggunas->isEmpty())
+                                <tr>
+                                    <td colspan="5" class="text-center">Tidak ada data pengguna.</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
 </x-app>
+
 <script>
     $(document).ready(function() {
         $("#basic-datatables").DataTable({});
 
         $("#multi-filter-select").DataTable({
-            pageLength: 5,
+            pageLength: 10,
             initComplete: function() {
                 this.api()
                     .columns()

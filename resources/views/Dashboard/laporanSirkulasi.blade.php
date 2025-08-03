@@ -1,15 +1,15 @@
 <x-app>
-
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Laporan Sirkulasi</h4>
-                <button class="btn btn-secondary">
+                <a href="{{ route('print.laporan') }}" target="_blank" class="btn btn-secondary">
                     <span class="btn-label">
                         <i class="fa fa-print"></i>
                     </span>
                     Print
-                </button>
+                </a>
+
             </div>
 
             <div class="card-body">
@@ -40,51 +40,40 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>S001</td>
-                                <td>Matematika</td>
-                                <td>Ana</td>
-                                <td>23/Jun/2020</td>
-                                <td>30/Jun/2020</td>
-                                <td>09/Jul/2025</td>
-                                <td>Rp. 1.858.000</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>S003</td>
-                                <td>C++</td>
-                                <td>Bagus</td>
-                                <td>22/Jun/2020</td>
-                                <td>29/Jun/2020</td>
-                                <td>23/Jul/2025</td>
-                                <td>Rp. 1.859.000</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>S005</td>
-                                <td>Tutorial Coding Laravel</td>
-                                <td>Bagus</td>
-                                <td>15/Jul/2025</td>
-                                <td>22/Jul/2025</td>
-                                <td>19/Jul/2025</td>
-                                <td>Rp. 10.000</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>S004</td>
-                                <td>RPL 2</td>
-                                <td>Edi</td>
-                                <td>23/Jun/2020</td>
-                                <td>30/Jun/2020</td>
-                                <td>30/Jul/2025</td>
-                                <td>Rp. 1.858.000</td>
-                            </tr>
+
+                            @php $totalDenda = 0; @endphp
+                            @foreach ($sirkulasis as $index => $s)
+                                @php
+                                    $jatuhTempo = \Carbon\Carbon::parse($s->tgl_kembali);
+                                    $tglDikembalikan = \Carbon\Carbon::parse($s->tgl_dikembalikan);
+                                    $terlambat = $tglDikembalikan->gt($jatuhTempo)
+                                        ? $jatuhTempo->diffInDays($tglDikembalikan)
+                                        : 0;
+                                    $denda = $terlambat * 1000;
+                                    $totalDenda += $denda;
+                                @endphp
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $s->id_sirkulasi }}</td>
+                                    <td>{{ $s->buku->judul_buku ?? '-' }}</td>
+                                    <td>{{ $s->anggota->nama ?? '-' }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($s->tgl_pinjam)->format('d/M/Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($s->tgl_kembali)->format('d/M/Y') }}</td>
+                                    <td>{{ $s->tgl_dikembalikan ? \Carbon\Carbon::parse($s->tgl_dikembalikan)->format('d/M/Y') : '-' }}
+                                    </td>
+                                    <td>Rp. {{ number_format($denda, 0, ',', '.') }}</td>
+                                </tr>
+                            @endforeach
+                            @if ($sirkulasis->isEmpty())
+                                <tr>
+                                    <td colspan="4" class="text-center">Tidak ada data pengembalian.</td>
+                                </tr>
+                            @endif
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td colspan="7" class="text-end fw-bold">Total Denda</td>
-                                <td class="fw-bold">Rp. 5.585.000</td>
+                                <td class="fw-bold">Rp. {{ number_format($totalDenda, 0, ',', '.') }}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -92,14 +81,14 @@
             </div>
         </div>
     </div>
-
 </x-app>
+
 <script>
     $(document).ready(function() {
         $("#basic-datatables").DataTable({});
 
         $("#multi-filter-select").DataTable({
-            pageLength: 5,
+            pageLength: 10,
             initComplete: function() {
                 this.api()
                     .columns()

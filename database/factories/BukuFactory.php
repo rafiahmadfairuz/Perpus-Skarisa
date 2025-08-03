@@ -14,10 +14,14 @@ class BukuFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    // database/factories/BukuFactory.php
     public function definition(): array
     {
         return [
-            //
+            'judul_buku' => $this->faker->sentence(3),
+            'pengarang'  => $this->faker->name,
+            'penerbit'   => $this->faker->company,
+            'th_terbit'  => $this->faker->year,
         ];
     }
 }

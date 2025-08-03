@@ -39,67 +39,93 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>S006</td>
-                                <td>Tutorial Coding Laravel</td>
-                                <td>A006 - Rafi</td>
-                                <td>19/Jul/2025</td>
-                                <td>26/Jul/2025</td>
-                                <td>
-                                    <span class="badge bg-danger">Rp. 6000</span>
-                                    <br>
-                                    Terlambat : 6 Hari
-                                </td>
-                                <td>
-                                    <button class="btn btn-success btn-sm">
-                                        <i class="fa fa-arrow-up"></i>
-                                    </button>
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fa fa-arrow-down"></i>
-                                    </button>
+                            @foreach ($sirkulasis as $no => $s)
+                                @php
+                                    $tglKembali = \Carbon\Carbon::parse($s->tgl_kembali)->startOfDay(); // deadline pengembalian
+                                    $tglDikembalikan = $s->tgl_dikembalikan
+                                        ? \Carbon\Carbon::parse($s->tgl_dikembalikan)->startOfDay()
+                                        : \Carbon\Carbon::now()->startOfDay(); // jika belum dikembalikan, pakai hari ini
 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>S002</td>
-                                <td>RPL 2</td>
-                                <td>A001 - Ana</td>
-                                <td>27/Jun/2020</td>
-                                <td>04/Jul/2020</td>
-                                <td>
-                                    <span class="badge bg-danger">Rp. 1854000</span>
-                                    <br>
-                                    Terlambat : 1854 Hari
-                                </td>
-                                <td>
-                                    <button class="btn btn-success btn-sm">
-                                        <i class="fa fa-arrow-up"></i>
-                                    </button>
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fa fa-arrow-down"></i>
-                                    </button>
+                                    $sudahKembali = $s->tgl_dikembalikan != null;
 
-                                </td>
-                            </tr>
+                                    $terlambat = $tglDikembalikan->gt($tglKembali)
+                                        ? $tglKembali->diffInDays($tglDikembalikan)
+                                        : 0;
+
+                                    $denda = $terlambat * 1000;
+                                @endphp
+
+                                <tr>
+                                    <td>{{ $no + 1 }}</td>
+                                    <td>{{ $s->id_sirkulasi }}</td>
+                                    <td>{{ $s->buku->judul_buku ?? 'Tidak ditemukan' }}</td>
+                                    <td>{{ $s->id_anggota }} - {{ $s->anggota->nama ?? 'Tidak ditemukan' }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($s->tgl_pinjam)->format('d/M/Y') }}</td>
+                                    <td>
+                                        {{ $s->tgl_kembali ? \Carbon\Carbon::parse($s->tgl_kembali)->format('d/M/Y') : '-' }}
+                                    </td>
+                                    <td>
+                                        @if (!$sudahKembali)
+                                            <span class="badge bg-warning">Belum dikembalikan</span>
+                                            @if ($terlambat > 0)
+                                                <br><span class="text-danger">Terlambat: {{ $terlambat }} hari</span>
+                                                <br><span class="text-danger">Denda: Rp
+                                                    {{ number_format($denda, 0, ',', '.') }}</span>
+                                            @endif
+                                        @elseif ($terlambat > 0)
+                                            <span class="badge bg-danger">Rp.
+                                                {{ number_format($denda, 0, ',', '.') }}</span>
+                                            <br> Terlambat: <strong>{{ $terlambat }}</strong> Hari
+                                        @else
+                                            <span class="badge bg-success">Masa Peminjaman</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{-- Tombol Up (Perpanjang 7 hari) --}}
+                                        <form action="{{ route('sirkulasi.up', $s->id_sirkulasi) }}" method="POST"
+                                            style="display: inline-block;" onsubmit="return confirm('Yakin ingin Menambah 7 Hari?')">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button class="btn btn-success btn-sm" title="Perpanjang 7 hari">
+                                                <i class="fa fa-arrow-up"></i>
+                                            </button>
+                                        </form>
+
+                                        {{-- Tombol Down (Kembalikan buku) --}}
+                                        <form action="{{ route('sirkulasi.kembalikan', $s->id_sirkulasi) }}" method="POST"
+                                            style="display: inline-block;" onsubmit="return confirm('Yakin ingin Mengembalikan?')">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button class="btn btn-danger btn-sm" title="Kembalikan buku">
+                                                <i class="fa fa-arrow-down"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+
+                                </tr>
+                            @endforeach
                         </tbody>
+
                     </table>
+
                 </div>
             </div>
         </div>
     </div>
-    <div>*Note
-        Masa peminjaman buku adalah 7 hari dari tanggal peminjaman.
+    <div>
+        *Note<br>
+        Masa peminjaman buku adalah 7 hari dari tanggal peminjaman.<br>
         Jika buku dikembalikan lebih dari masa peminjaman, maka akan dikenakan denda
-        sebesar Rp 1.000/hari.</div>
+        sebesar Rp 1.000/hari.
+    </div>
 </x-app>
+
 <script>
     $(document).ready(function() {
         $("#basic-datatables").DataTable({});
 
         $("#multi-filter-select").DataTable({
-            pageLength: 5,
+            pageLength: 10,
             initComplete: function() {
                 this.api()
                     .columns()

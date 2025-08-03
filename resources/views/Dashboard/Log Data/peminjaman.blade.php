@@ -6,7 +6,7 @@
              </div>
              <div class="card-body">
                  <div class="table-responsive">
-                     <table  id="multi-filter-select" class="display table table-striped table-hover">
+                     <table id="multi-filter-select" class="display table table-striped table-hover">
                          <thead>
                              <tr>
                                  <th>No</th>
@@ -24,43 +24,21 @@
                              </tr>
                          </tfoot>
                          <tbody>
-                             <tr>
-                                 <td>1</td>
-                                 <td>C++</td>
-                                 <td>A002 - Bagus</td>
-                                 <td>01/Jun/2020</td>
-                             </tr>
-                             <tr>
-                                 <td>2</td>
-                                 <td>Matematika</td>
-                                 <td>A001 - Ana</td>
-                                 <td>23/Jun/2020</td>
-                             </tr>
-                             <tr>
-                                 <td>3</td>
-                                 <td>RPL 2</td>
-                                 <td>A005 - Edi</td>
-                                 <td>23/Jun/2020</td>
-                             </tr>
-                             <tr>
-                                 <td>4</td>
-                                 <td>RPL 2</td>
-                                 <td>A001 - Ana</td>
-                                 <td>25/Jun/2020</td>
-                             </tr>
-                             <tr>
-                                 <td>5</td>
-                                 <td>Tutorial Coding Laravel</td>
-                                 <td>A002 - Bagus</td>
-                                 <td>01/Jul/2025</td>
-                             </tr>
-                             <tr>
-                                 <td>6</td>
-                                 <td>Tutorial Coding Laravel</td>
-                                 <td>A006 - Rafi</td>
-                                 <td>19/Jul/2025</td>
-                             </tr>
+                             @foreach ($dataPeminjam as $no => $item)
+                                 <tr>
+                                     <td>{{ $no + 1 }}</td>
+                                     <td>{{ $item->buku->judul_buku ?? 'Tidak diketahui' }}</td>
+                                     <td>{{ $item->id_anggota }} - {{ $item->anggota->nama ?? 'Tidak diketahui' }}</td>
+                                     <td>{{ \Carbon\Carbon::parse($item->tgl_pinjam)->translatedFormat('d/M/Y') }}</td>
+                                 </tr>
+                             @endforeach
+                             @if ($dataPeminjam->isEmpty())
+                                 <tr>
+                                     <td colspan="4" class="text-center">Tidak ada data pengembalian.</td>
+                                 </tr>
+                             @endif
                          </tbody>
+
                      </table>
                  </div>
              </div>
@@ -72,7 +50,7 @@
          $("#basic-datatables").DataTable({});
 
          $("#multi-filter-select").DataTable({
-             pageLength: 5,
+             pageLength: 10,
              initComplete: function() {
                  this.api()
                      .columns()

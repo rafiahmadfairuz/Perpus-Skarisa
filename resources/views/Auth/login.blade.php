@@ -1,37 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sistem</title>
+    <title>Login - Sistem Informasi Perpustakaan</title>
 
-    <!-- Bootstrap 5 -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            margin: 0;
             height: 100vh;
+            background: linear-gradient(135deg, #e0f7ff, #d1e7f7);
+            font-family: sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .card {
-            border: none;
-            border-radius: 1rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
+        .login-box {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
         }
 
+        .login-box img {
+            width: 120px;
+            margin-bottom: 1rem;
+        }
+
+        .login-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #0077b6;
+            /* biru lembut */
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+        }
+
+        .btn-blue {
+            background-color: #0077b6;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-blue:hover {
+            background-color: #005f91;
+        }
+
         .input-group-text {
-            background-color: #ffffff;
+            background-color: #fff;
             border-right: none;
         }
 
@@ -39,8 +68,12 @@
             border-left: none;
         }
 
-        .form-control:focus {
-            box-shadow: none;
+        .is-invalid {
+            border-color: #dc3545;
+        }
+
+        small.text-danger {
+            font-size: 0.85rem;
         }
 
         .text-muted {
@@ -51,45 +84,51 @@
 
 <body>
 
-    <div class="card">
-        <h3 class="text-center fw-bold mb-2">Login</h3>
-        <p class="text-center text-muted mb-4">Please login to your account</p>
-        <form method="POST" action="">
-            <!-- @csrf (aktifkan kalau pakai Laravel) -->
+    <div class="login-box">
+        <div class="login-title">Dashboard Perpustakaan</div>
+        <img src="{{ asset('assets/img/Skarisa.png') }}" alt="Logo Perpustakaan">
+        <p class="text-muted mb-3">Login System</p>
 
-            <!-- Email -->
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+
+            <!-- Username -->
+            <div class="mb-3 text-start">
                 <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    <input type="email" id="email" name="email" class="form-control" required>
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" name="username" placeholder="Username"
+                        class="form-control @error('username') is-invalid @enderror" required>
                 </div>
-                <!-- @error('email') -->
-                <!-- <div class="invalid-feedback d-flex align-items-center mt-1" style="display: block;">
-                    <i class="fas fa-exclamation-circle me-2"></i>
-                    <span>Pesan error email</span>
-                </div> -->
-                <!-- @enderror -->
+                @error('username')
+                    <small class="text-danger d-flex align-items-center mt-1">
+                        <i class="fas fa-exclamation-circle me-1"></i> {{ $message }}
+                    </small>
+                @enderror
+                @if (session('gagal'))
+                    <small class="text-danger d-flex align-items-center mt-1">
+                        <i class="fas fa-exclamation-circle me-1"></i> {{ session('gagal') }}
+                    </small>
+                @endif
+
             </div>
 
             <!-- Password -->
-            <div class="mb-4">
-                <label for="password" class="form-label">Password</label>
+            <div class="mb-4 text-start">
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                    <input type="password" id="password" name="password" class="form-control" required>
+                    <input type="password" name="password" placeholder="Password"
+                        class="form-control @error('password') is-invalid @enderror" required>
                 </div>
-                <!-- @error('password') -->
-                <!-- <div class="invalid-feedback d-flex align-items-center mt-1" style="display: block;">
-                    <i class="fas fa-exclamation-circle me-2"></i>
-                    <span>Pesan error password</span>
-                </div> -->
-                <!-- @enderror -->
+                @error('password')
+                    <small class="text-danger d-flex align-items-center mt-1">
+                        <i class="fas fa-exclamation-circle me-1"></i> {{ $message }}
+                    </small>
+                @enderror
             </div>
 
-            <!-- Tombol -->
+            <!-- Tombol Login -->
             <div class="d-grid">
-                <button type="submit" class="btn btn-dark">Login</button>
+                <button type="submit" class="btn btn-blue">Masuk</button>
             </div>
         </form>
     </div>

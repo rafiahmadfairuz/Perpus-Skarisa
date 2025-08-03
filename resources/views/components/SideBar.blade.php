@@ -7,9 +7,11 @@
 <div class="sidebar" data-background-color="dark2">
     <div class="sidebar-logo">
         <div class="logo-header" data-background-color="dark2">
-            <a href="{{ route('dashboard.index') }}" class="logo">
-                <img src="{{ asset('assets/img/kaiadmin/logo_light.svg') }}" alt="navbar brand" class="navbar-brand" height="20" />
+            <a href="{{ route('dashboard.index') }}" class="logo d-flex align-items-center">
+                <img src="{{ asset('assets/img/Skarisa.png') }}" alt="Logo Skarisa" height="34" class="me-2">
+                <span style="color: white; font-weight: bold; font-size: 20px;">Smk Krian 1</span>
             </a>
+
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
                     <i class="gg-menu-right"></i>
@@ -30,11 +32,12 @@
             <!-- User Profile -->
             <div class="user-box d-flex align-items-center justify-center pt-3 px-3 profile-info">
                 <div class="avatar avatar-lg mx-4">
-                    <img src="{{ asset('assets/img/jm_denis.jpg') }}" alt="..." class="avatar-img rounded-circle">
+                    <img src="{{ asset('assets/img/avatar.png') }}" alt="..." class="avatar-img rounded-circle">
                 </div>
                 <div class="">
-                    <div class="text-white fw-bold">Rafi Ahmad</div>
-                    <div class="badge" style="background-color: #6f42c1; color: #fff; margin-top: 4px;">Administrator</div>
+                    <div class="text-white fw-bold">{{ Auth::user()->nama_pengguna }}</div>
+                    <div class="badge" style="background-color: #6f42c1; color: #fff; margin-top: 4px;">
+                        {{ Auth::user()->level }}</div>
                 </div>
             </div>
             <!-- End User Profile -->
@@ -55,7 +58,8 @@
                 </li>
 
                 <li class="nav-item {{ $isKelolaActive ? 'active submenu' : '' }}">
-                    <a data-bs-toggle="collapse" href="#kelolaData" aria-expanded="{{ $isKelolaActive ? 'true' : 'false' }}">
+                    <a data-bs-toggle="collapse" href="#kelolaData"
+                        aria-expanded="{{ $isKelolaActive ? 'true' : 'false' }}">
                         <i class="fas fa-folder"></i>
                         <p>Kelola Data</p>
                         <span class="caret"></span>
@@ -88,10 +92,12 @@
                     <div class="collapse {{ $isLogActive ? 'show' : '' }}" id="logData">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->routeIs('log.peminjaman') ? 'active' : '' }}">
-                                <a href="{{ route('log.peminjaman') }}"><span class="sub-item">Log Peminjaman</span></a>
+                                <a href="{{ route('log.peminjaman') }}"><span class="sub-item">Log
+                                        Peminjaman</span></a>
                             </li>
                             <li class="{{ request()->routeIs('log.pengembalian') ? 'active' : '' }}">
-                                <a href="{{ route('log.pengembalian') }}"><span class="sub-item">Log Pengembalian</span></a>
+                                <a href="{{ route('log.pengembalian') }}"><span class="sub-item">Log
+                                        Pengembalian</span></a>
                             </li>
                         </ul>
                     </div>
@@ -111,22 +117,25 @@
                     <div class="text-section text-white mb-0">SETTING</div>
                 </li>
 
-                <li class="nav-item {{ request()->routeIs('pengguna.sistem') ? 'active' : '' }}">
-                    <a href="{{ route('pengguna.sistem') }}">
-                        <i class="fas fa-users-cog"></i>
-                        <p>Pengguna Sistem</p>
+                @if (Auth::user()->level === 'Administrator')
+                    <li class="nav-item {{ request()->routeIs('pengguna.sistem') ? 'active' : '' }}">
+                        <a href="{{ route('pengguna.index') }}">
+                            <i class="fas fa-users-cog"></i>
+                            <p>Pengguna Sistem</p>
+                        </a>
+                    </li>
+                @endif
+                <li class="nav-item">
+                    <a href="#" class="nav-link"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logout</p>
                     </a>
-                </li>
-<li class="nav-item">
-    <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        <i class="fas fa-sign-out-alt"></i>
-        <p>Logout</p>
-    </a>
 
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
-</li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
 
 
             </ul>

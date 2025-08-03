@@ -5,26 +5,39 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LogDataController;
 use App\Http\Controllers\PenggunaController;
+use App\Http\Controllers\SirkulasiController;
+use App\Models\Sirkulasi;
 
-Route::view('/login', 'Auth.login')->name('login')->middleware('guest');
-Route::post('/logout', [AuthController::class, "logout"])->name('logout');
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+Route::get('/login', [AuthController::class, 'viewLogin'])->name('login.index')->middleware('guest');
+Route::post('/login', [AuthController::class, 'storeLogin'])->name('login');
 
-Route::resource('/buku', BukuController::class);
-Route::resource('/anggota', AnggotaController::class);
+Route::middleware("auth")->group(function () {
+    Route::post('/logout', [AuthController::class, "logout"])->name('logout');
+
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::resource('/buku', BukuController::class);
+    Route::resource('/anggota', AnggotaController::class);
+
+    Route::get("/sirkulasi", [SirkulasiController::class, 'index'])->name('sirkulasi');
+    Route::get('/sirkulasi/create', [SirkulasiController::class, 'formUpdateSirkulasi'])->name('sirkulasi.create');
+    Route::post('/sirkulasi/create', [SirkulasiController::class, 'storeSirkulasi'])->name('sirkulasi.store');
 
 
-Route::view('/dashboard/sirkulasi', 'Dashboard.sirkulasi')->name('sirkulasi');
-Route::view('/dashboard/sirkulasi/create', 'Form.createSirkulasi')->name('sirkulasi.create');
+    Route::get('/data/peminjaman', [LogDataController::class, "dataPeminjaman"])->name('log.peminjaman');
+    Route::get('/data/pengembalian', [LogDataController::class, "dataPengembalian"])->name('log.pengembalian');
 
-Route::view('/dashboard/log-data/peminjaman', 'Dashboard.Log Data.peminjaman')->name('log.peminjaman');
-Route::view('/dashboard/log-data/pengembalian', 'Dashboard.Log Data.pengembalian')->name('log.pengembalian');
+    Route::patch('/sirkulasi/up/{id}', [SirkulasiController::class, 'up'])->name('sirkulasi.up');
+    Route::patch('/sirkulasi/kembalikan/{id}', [SirkulasiController::class, 'kembalikan'])->name('sirkulasi.kembalikan');
 
-Route::view('/dashboard/laporan-sirkulasi', 'Dashboard.laporanSirkulasi')->name('laporan.sirkulasi');
 
-Route::resource('/pengguna', PenggunaController::class);
-Route::view('/dashboard/pengguna-sistem', 'Dashboard.penggunaSistem')->name('pengguna.sistem');
-Route::view('/dashboard/pengguna-sistem/create', 'Form.createPengguna')->name('create.pengguna');
-Route::view('/dashboard/pengguna-sistem/update', 'Form.updatePengguna')->name('update.pengguna');
-Route::middleware("auth")->group(function () {});
+    Route::get('/laporan/sirkulasi', [SirkulasiController::class, 'logSirkulasi'])->name('laporan.sirkulasi');
+
+    Route::resource('/pengguna', PenggunaController::class);
+
+    Route::get('/print', [AnggotaController::class, 'print'])->name('anggota.cetak');
+    Route::get('/anggota/print/{id}', [AnggotaController::class, 'printKartu'])->name('anggota.print.kartu');
+    Route::get('/laporan/print', [SirkulasiController::class, 'printLaporan'])->name('print.laporan');
+
+});

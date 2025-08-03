@@ -109,4 +109,16 @@ class AnggotaController extends Controller
 
         return redirect()->route('anggota.index')->with('success', 'Data anggota berhasil dihapus!');
     }
+
+    public function print()
+    {
+        $anggotas = Anggota::all();
+        return view('Print.listAnggota', compact('anggotas'));
+    }
+
+    public function printKartu($id)
+    {
+        $anggota = Anggota::findOrFail($id);
+        return view('Print.kartu', compact('anggota'));
+    }
 }

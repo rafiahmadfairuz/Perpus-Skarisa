@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\LogPinjam;
+use App\Models\Sirkulasi;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class LogPinjamSeeder extends Seeder
 {
@@ -12,6 +14,14 @@ class LogPinjamSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $sirkulasis = Sirkulasi::all();
+
+        foreach ($sirkulasis as $sirkulasi) {
+            LogPinjam::create([
+                'id_buku'          => $sirkulasi->id_buku,
+                'id_anggota'       => $sirkulasi->id_anggota,
+                'tgl_pinjam'       => $sirkulasi->tgl_pinjam,
+            ]);
+        }
     }
 }

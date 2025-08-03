@@ -77,7 +77,7 @@
         $("#basic-datatables").DataTable({});
 
         $("#multi-filter-select").DataTable({
-            pageLength: 5,
+            pageLength: 10,
             initComplete: function() {
                 this.api()
                     .columns()

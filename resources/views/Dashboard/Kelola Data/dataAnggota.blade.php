@@ -10,7 +10,7 @@
                         </span>
                         Tambah Anggota
                     </a>
-                    <a href="" class="btn btn-success btn-sm">
+                    <a href="{{ route('anggota.cetak') }}" class="btn btn-success btn-sm"  target="_blank">
                         <i class="fa fa-print"></i> Print
                     </a>
                 </div>
@@ -52,17 +52,22 @@
                                     <td>{{ $a->no_hp }}</td>
                                     <td>
                                         <div class="d-flex gap-1">
-                                            <a href="{{ route('anggota.edit', $a->id_anggota) }}" class="btn btn-success btn-sm">
+                                            <a href="{{ route('anggota.edit', $a->id_anggota) }}"
+                                                class="btn btn-success btn-sm">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <form action="{{ route('anggota.destroy', $a->id_anggota) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                            <form action="{{ route('anggota.destroy', $a->id_anggota) }}" method="POST"
+                                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                                <button class="btn btn-danger btn-sm"><i
+                                                        class="fa fa-trash"></i></button>
                                             </form>
-                                            <a href="" class="btn btn-primary btn-sm">
+                                            <a href="{{ route('anggota.print.kartu', $a->id_anggota) }}"
+                                                class="btn btn-primary btn-sm" target="_blank">
                                                 <i class="fa fa-print"></i>
                                             </a>
+
                                         </div>
                                     </td>
                                 </tr>
@@ -86,7 +91,7 @@
         $("#basic-datatables").DataTable({});
 
         $("#multi-filter-select").DataTable({
-            pageLength: 5,
+            pageLength: 10,
             initComplete: function() {
                 this.api()
                     .columns()

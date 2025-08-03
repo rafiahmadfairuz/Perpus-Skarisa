@@ -14,12 +14,12 @@ class AuthController extends Controller
     public function storeLogin(Request $request)
     {
         $request->validate([
-            "username" => "required",
-            'password' => "required"
+            "username" => "required|min:3",
+            'password' => "required|min:3"
         ]);
         if(Auth::attempt(['username' => $request->username, 'password' => $request->password])){
             $request->session()->regenerate();
-            return view('Dashboard.index');
+            return redirect()->route('dashboard.index');
         }
 
         return redirect()->back()->with("gagal", "Username Atau Password Salah, Silahkan Coba Kembali");

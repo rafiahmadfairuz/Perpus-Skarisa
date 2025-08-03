@@ -12,8 +12,8 @@ class PenggunaController extends Controller
      */
     public function index()
     {
-        $pengguna = User::all();
-        return view('Dashboard.penggunaSistem', compact('pengguna'));
+        $penggunas = User::all();
+        return view('Dashboard.penggunaSistem', compact('penggunas'));
     }
 
     /**
@@ -30,17 +30,22 @@ class PenggunaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "username" => 'required|unique:users,username',
-            "password" => "required"
+            'nama_pengguna' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users',
+            'password' => 'required|string|min:6',
+            'level' => 'required|in:Administrator,Petugas',
         ]);
 
         User::create([
+            'nama_pengguna' => $request->nama_pengguna,
             'username' => $request->username,
-            'password' => $request->password
+            'password' => bcrypt($request->password),
+            'level' => $request->level,
         ]);
 
-        return redirect()->route('dashboard.index');
+        return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil ditambahkan.');
     }
+
 
     /**
      * Display the specified resource.
@@ -55,27 +60,37 @@ class PenggunaController extends Controller
      */
     public function edit(string $id)
     {
-        $pengguna = User::where('id', $id);
+        $pengguna = User::where('id', $id)->firstOrFail();
         return view('Form.updatePengguna', compact('pengguna'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        $pengguna = User::findOrfail($id);
         $request->validate([
-            'username' => "required|unique:users,username," . $pengguna->id,
-            "password" => "required"
+            'nama_pengguna' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'password' => 'nullable|string|min:6',
+            'level' => 'required|in:Administrator,Petugas',
         ]);
 
-        $pengguna->update([
-            "username" => $request->username,
-            'password' => $request->password
-        ]);
+        $pengguna = User::findOrFail($id);
 
-        return redirect()->route('pengguna.index')->with('sukses', "Sukses Mengupdate Pengguna");
+        $pengguna->nama_pengguna = $request->nama_pengguna;
+        $pengguna->username = $request->username;
+        $pengguna->level = $request->level;
+
+        // Update password hanya jika diisi
+        if ($request->filled('password')) {
+            $pengguna->password = bcrypt($request->password);
+        }
+
+        $pengguna->save();
+
+        return redirect()->route('pengguna.index')->with('success', 'Data pengguna berhasil diperbarui.');
     }
 
     /**
@@ -83,6 +98,9 @@ class PenggunaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $pengguna = User::findOrFail($id);
+        $pengguna->delete();
+
+        return redirect()->route('pengguna.index')->with('success', 'Pengguna berhasil dihapus.');
     }
 }

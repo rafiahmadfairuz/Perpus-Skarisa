@@ -17,7 +17,10 @@ class AnggotaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nama' => $this->faker->name,
+            'jekel' => $this->faker->randomElement(['Laki-Laki', 'Perempuan']),
+            'kelas' => $this->faker->randomElement(['X', 'XI', 'XII']) . ' ' . strtoupper($this->faker->randomLetter()),
+            'no_hp' => $this->faker->phoneNumber,
         ];
     }
 }

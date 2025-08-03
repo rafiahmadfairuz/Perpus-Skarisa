@@ -16,40 +16,70 @@
                                     <label for="idBuku">ID Buku</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-id-badge"></i></span>
-                                        <input type="text" id="idBuku" class="form-control" value="{{ $buku->id_buku }}" readonly>
+                                        <input type="text" id="idBuku" class="form-control"
+                                            value="{{ $buku->id_buku }}" readonly>
                                     </div>
                                 </div>
+
                                 <!-- Judul Buku -->
                                 <div class="form-group mb-3">
                                     <label for="judul">Judul Buku</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-book"></i></span>
-                                        <input type="text" id="judul" name="judul_buku" class="form-control" value="{{ $buku->judul_buku }}" placeholder="Judul Buku">
+                                        <input type="text" id="judul" name="judul_buku" class="form-control"
+                                            value="{{ old('judul_buku', $buku->judul_buku) }}" placeholder="Judul Buku">
                                     </div>
+                                    @error('judul_buku')
+                                        <small class="text-danger d-flex align-items-center mt-1">
+                                            <i class="fa fa-exclamation-circle me-1"></i> {{ $message }}
+                                        </small>
+                                    @enderror
                                 </div>
+
                                 <!-- Pengarang -->
                                 <div class="form-group mb-3">
                                     <label for="pengarang">Pengarang</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                        <input type="text" id="pengarang" name="pengarang" class="form-control" value="{{ $buku->pengarang }}" placeholder="Pengarang">
+                                        <input type="text" id="pengarang" name="pengarang" class="form-control"
+                                            value="{{ old('pengarang', $buku->pengarang) }}" placeholder="Pengarang">
                                     </div>
+                                    @error('pengarang')
+                                        <small class="text-danger d-flex align-items-center mt-1">
+                                            <i class="fa fa-exclamation-circle me-1"></i> {{ $message }}
+                                        </small>
+                                    @enderror
                                 </div>
+
                                 <!-- Penerbit -->
                                 <div class="form-group mb-3">
                                     <label for="penerbit">Penerbit</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-building"></i></span>
-                                        <input type="text" id="penerbit" name="penerbit" class="form-control" value="{{ $buku->penerbit }}" placeholder="Penerbit">
+                                        <input type="text" id="penerbit" name="penerbit" class="form-control"
+                                            value="{{ old('penerbit', $buku->penerbit) }}" placeholder="Penerbit">
                                     </div>
+                                    @error('penerbit')
+                                        <small class="text-danger d-flex align-items-center mt-1">
+                                            <i class="fa fa-exclamation-circle me-1"></i> {{ $message }}
+                                        </small>
+                                    @enderror
                                 </div>
+
                                 <!-- Tahun Terbit -->
                                 <div class="form-group mb-3">
                                     <label for="tahun">Tahun Terbit</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
-                                        <input type="number" id="tahun" name="th_terbit" class="form-control" value="{{ $buku->th_terbit }}" placeholder="Tahun Terbit" min="1000" max="9999">
+                                        <input type="number" id="tahun" name="th_terbit" class="form-control"
+                                            value="{{ old('th_terbit', $buku->th_terbit) }}" placeholder="Tahun Terbit"
+                                            min="1000" max="9999">
                                     </div>
+                                    @error('th_terbit')
+                                        <small class="text-danger d-flex align-items-center mt-1">
+                                            <i class="fa fa-exclamation-circle me-1"></i> {{ $message }}
+                                        </small>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
