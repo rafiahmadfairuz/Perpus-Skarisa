@@ -11,7 +11,7 @@
                         </div>
                         <h3 class="fw-bold mb-0 text-white">Buku</h3>
                     </div>
-                    <h2 class="mb-3 text-white">6</h2>
+                    <h2 class="mb-3 text-white">{{ $totalBuku }}</h2>
                     <a href="{{ route('buku.index') }}" class="text-small text-uppercase fw-bold op-8 text-white">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
@@ -28,7 +28,7 @@
                         </div>
                         <h3 class="fw-bold mb-0 text-white">Anggota</h3>
                     </div>
-                    <h2 class="mb-3 text-white">6</h2>
+                    <h2 class="mb-3 text-white">{{ $totalAnggota }}</h2>
                     <a href="{{ route('anggota.index') }}" class="text-small text-uppercase fw-bold op-8 text-white">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
@@ -43,9 +43,9 @@
                         <div class="me-3">
                             <i class="fas fa-exchange-alt fa-2x text-white"></i>
                         </div>
-                        <h3 class="fw-bold mb-0 text-white">Sirkulasi</h3>
+                        <h3 class="fw-bold mb-0 text-white">Sirkulasi Aktif</h3>
                     </div>
-                    <h2 class="mb-3 text-white">2</h2>
+                    <h2 class="mb-3 text-white">{{ $totalSirkulasi }}</h2>
                     <a href="{{ route('sirkulasi') }}" class="text-small text-uppercase fw-bold op-8 text-white">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
@@ -62,7 +62,7 @@
                         </div>
                         <h3 class="fw-bold mb-0 text-white">Laporan</h3>
                     </div>
-                    <h2 class="mb-3 text-white">4</h2>
+                    <h2 class="mb-3 text-white">{{ $totalLaporan }}</h2>
                     <a href="{{ route('laporan.sirkulasi') }}" class="text-small text-uppercase fw-bold op-8 text-white">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>

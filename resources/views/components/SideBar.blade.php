@@ -1,5 +1,5 @@
 @php
-    $isKelolaActive = request()->routeIs('kelola.buku') || request()->routeIs('kelola.anggota');
+    $isKelolaActive = request()->routeIs('buku.index') || request()->routeIs('anggota.index');
     $isLogActive = request()->routeIs('log.peminjaman') || request()->routeIs('log.pengembalian');
 @endphp
 
@@ -117,16 +117,18 @@
                         <p>Pengguna Sistem</p>
                     </a>
                 </li>
+<li class="nav-item">
+    <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <i class="fas fa-sign-out-alt"></i>
+        <p>Logout</p>
+    </a>
 
-                <li class="nav-item">
-                    <form action="{{ route("logout") }}" method="POST">
-                        @csrf
-                        <button type="submit">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <p>Logout</p>
-                        </button>
-                    </form>
-                </li>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+</li>
+
+
             </ul>
         </div>
     </div>
